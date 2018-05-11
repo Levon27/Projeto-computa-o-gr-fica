@@ -12,6 +12,8 @@
  * using the + and - keys.
  */
 
+#include <windows.h>
+#include <math.h>
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #else
@@ -22,6 +24,53 @@
 
 static int slices = 16;
 static int stacks = 16;
+float rot = 0.0;
+void eixos(float T)
+{
+
+    glBegin(GL_LINES);
+
+    glColor3f(1,0,0);
+
+    glVertex3f(0,0,0);
+    glVertex3f(T,0,0);
+
+    glColor3f(0,1,0);
+
+    glVertex3f(0,0,0);
+    glVertex3f(0,T,0);
+
+    glColor3f(0,0,1);
+
+    glVertex3f(0,0,0);
+    glVertex3f(0,0,T);
+
+    glEnd();
+
+};
+
+void face()
+{
+    float i,j;
+    float n=150;
+    glBegin(GL_QUADS);
+    for(j=0; j<n; j++)
+    {
+        for (i=0; i<n; i++)
+        {
+
+
+            glNormal3f(0,0,1.0f);
+            glVertex3f(-0.5+i/n,0.5-j/n,0.0);
+            glVertex3f(-0.5+i/n,0.5-(j+1)/n,0.0);
+            glVertex3f(-0.5+(i+1)/n,0.5-(j+1)/n,0.0);
+            glVertex3f(-0.5+(i+1)/n,0.5-(j)/n,0.0);
+
+
+        }
+    }
+    glEnd();
+}
 
 /* GLUT callback Handlers */
 
@@ -37,55 +86,33 @@ static void resize(int width, int height)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity() ;
 }
-
+float zoom = 1.2;
 static void display(void)
 {
-    const double t = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
-    const double a = t*90.0;
+    const double t = 0;
+    const double a = 0;
 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glColor3d(1,0,0);
+
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(-70.0/zoom, 70.0/zoom, -50.0/zoom, 90.0, -100.0, 100.0);
+    gluLookAt(1*cos(rot), 1*sin(rot), 1, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
+    glMatrixMode(GL_MODELVIEW);
+
+
+    glMatrixMode(GL_MODELVIEW);
 
     glPushMatrix();
         glTranslated(-2.4,1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
-        glutSolidSphere(1,slices,stacks);
+        eixos(80);
     glPopMatrix();
 
     glPushMatrix();
-        glTranslated(0,1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
-        glutSolidCone(1,1,slices,stacks);
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslated(2.4,1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
-        glutSolidTorus(0.2,0.8,slices,stacks);
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslated(-2.4,-1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
-        glutWireSphere(1,slices,stacks);
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslated(0,-1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
-        glutWireCone(1,1,slices,stacks);
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslated(2.4,-1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
-        glutWireTorus(0.2,0.8,slices,stacks);
+        glScalef(80.0,80.0,1.0);
+        glColor3f(0.2,0.7,0.0);
+        face();
     glPopMatrix();
 
     glutSwapBuffers();
@@ -113,10 +140,19 @@ static void key(unsigned char key, int x, int y)
                 stacks--;
             }
             break;
+        case '1':
+        rot -= 0.05f;
+        break;
+
+        case '2':
+        rot += 0.05f;
+        break;
     }
 
     glutPostRedisplay();
 }
+
+
 
 static void idle(void)
 {
