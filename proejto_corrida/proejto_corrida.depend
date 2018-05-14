@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1526071271 source:t:\14015870\projeto-computacao-grafica\proejto_corrida\main.cpp
+1526321255 source:t:\14015870\projeto-computacao-grafica\proejto_corrida\main.cpp
 	<windows.h>
 	<math.h>
 	<GLUT/glut.h>

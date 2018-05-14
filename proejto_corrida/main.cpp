@@ -86,7 +86,7 @@ static void resize(int width, int height)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity() ;
 }
-float zoom = 1.2;
+float zoom = 2.0;
 static void display(void)
 {
     const double t = 0;
@@ -97,23 +97,40 @@ static void display(void)
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(-70.0/zoom, 70.0/zoom, -50.0/zoom, 90.0, -100.0, 100.0);
+    glOrtho(-70.0/zoom, 70.0/zoom, -50.0/zoom, 90.0/zoom, -100.0, 100.0);
     gluLookAt(1*cos(rot), 1*sin(rot), 1, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
     glMatrixMode(GL_MODELVIEW);
 
 
     glMatrixMode(GL_MODELVIEW);
 
+
+    //criando eixos
     glPushMatrix();
         glTranslated(-2.4,1.2,-6);
         eixos(80);
     glPopMatrix();
 
+
+    //início : x = -40 ;
+    //fim : x = 40;
+
+    /* CHAO */
     glPushMatrix();
         glScalef(80.0,80.0,1.0);
         glColor3f(0.2,0.7,0.0);
         face();
     glPopMatrix();
+
+
+    /* PISTA */
+    glPushMatrix();
+        glScalef(80.0,40.0,1.0);
+        glTranslatef(0.0,0.0,0.1); // pista deslocada 0.1 pra cima p/ aparecer
+        glColor3b(83, 81, 85);
+        face();
+    glPopMatrix();
+
 
     glutSwapBuffers();
 }
