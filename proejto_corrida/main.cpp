@@ -25,6 +25,7 @@
 static int slices = 16;
 static int stacks = 16;
 float rot = 0.0;
+float rot2 = 0.0;
 void eixos(float T)
 {
 
@@ -52,21 +53,17 @@ void eixos(float T)
 void face()
 {
     float i,j;
-    float n=150;
+    float n=15;
     glBegin(GL_QUADS);
     for(j=0; j<n; j++)
     {
         for (i=0; i<n; i++)
         {
-
-
             glNormal3f(0,0,1.0f);
             glVertex3f(-0.5+i/n,0.5-j/n,0.0);
             glVertex3f(-0.5+i/n,0.5-(j+1)/n,0.0);
             glVertex3f(-0.5+(i+1)/n,0.5-(j+1)/n,0.0);
             glVertex3f(-0.5+(i+1)/n,0.5-(j)/n,0.0);
-
-
         }
     }
     glEnd();
@@ -86,7 +83,7 @@ static void resize(int width, int height)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity() ;
 }
-float zoom = 2.0;
+float zoom = 1.4;
 static void display(void)
 {
     const double t = 0;
@@ -97,39 +94,47 @@ static void display(void)
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(-70.0/zoom, 70.0/zoom, -50.0/zoom, 90.0/zoom, -100.0, 100.0);
-    gluLookAt(1*cos(rot), 1*sin(rot), 1, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
+    glOrtho(-70.0/zoom, 70.0/zoom, -50.0/zoom, 70.0/zoom, -100.0, 100.0);
+
+    //posição  da camera para debug
+    gluLookAt(1*cos(rot)*sin(rot2), 1*sin(rot)*sin(rot2), 1.0*cos(rot2), 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
+
+    //posição inicial da câmera
+    //gluLookAt(-40.0*cos(rot), 1*sin(rot), 1, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
+
     glMatrixMode(GL_MODELVIEW);
 
 
-    glMatrixMode(GL_MODELVIEW);
+
 
 
     //criando eixos
     glPushMatrix();
-        glTranslated(-2.4,1.2,-6);
+        //glTranslated(-2.4,1.2,-6);
         eixos(80);
     glPopMatrix();
 
 
-    //início : x = -40 ;
-    //fim : x = 40;
+
+    float comp = 100.0; // comprimento da pista + chao
 
     /* CHAO */
     glPushMatrix();
-        glScalef(80.0,80.0,1.0);
         glColor3f(0.2,0.7,0.0);
+        glTranslatef(comp/2,0,0); //    translada por comp/2 p/ que o inicio
+        glScalef(comp,80.0,1.0);  //    da pista coincida com a origem do eixo X
         face();
     glPopMatrix();
 
 
     /* PISTA */
     glPushMatrix();
-        glScalef(80.0,40.0,1.0);
-        glTranslatef(0.0,0.0,0.1); // pista deslocada 0.1 pra cima p/ aparecer
         glColor3b(83, 81, 85);
+        glTranslatef(comp/2,0.0,0.1); //    pista deslocada 0.1 pra cima p/ aparecer
+        glScalef(comp,20.0,1.0);
         face();
     glPopMatrix();
+
 
 
     glutSwapBuffers();
@@ -157,12 +162,20 @@ static void key(unsigned char key, int x, int y)
                 stacks--;
             }
             break;
-        case '1':
+        case 'a':
         rot -= 0.05f;
         break;
 
-        case '2':
+        case 'd':
         rot += 0.05f;
+        break;
+
+        case 'w':
+        rot2 -= 0.05f;
+        break;
+
+        case 's':
+        rot2 += 0.05f;
         break;
     }
 
