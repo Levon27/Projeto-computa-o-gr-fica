@@ -55,6 +55,7 @@ void face()
     float i,j;
     float n=15;
     glBegin(GL_QUADS);
+
     for(j=0; j<n; j++)
     {
         for (i=0; i<n; i++)
@@ -66,6 +67,7 @@ void face()
             glVertex3f(-0.5+(i+1)/n,0.5-(j)/n,0.0);
         }
     }
+
     glEnd();
 }
 
@@ -86,8 +88,6 @@ static void resize(int width, int height)
 float zoom = 1.4;
 static void display(void)
 {
-    const double t = 0;
-    const double a = 0;
 
 
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -97,20 +97,16 @@ static void display(void)
     glOrtho(-70.0/zoom, 70.0/zoom, -50.0/zoom, 70.0/zoom, -100.0, 100.0);
 
     //posição  da camera para debug
-    gluLookAt(1*cos(rot)*sin(rot2), 1*sin(rot)*sin(rot2), 1.0*cos(rot2), 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
+    //gluLookAt(1*cos(rot)*sin(rot2), 1*sin(rot)*sin(rot2), 1.0*cos(rot2), 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
 
     //posição inicial da câmera
-    //gluLookAt(-40.0*cos(rot), 1*sin(rot), 1, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
+    glRotatef(10.0,0.0,1.0,0.0);
+    gluLookAt(-40.0, 1, 5, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
 
     glMatrixMode(GL_MODELVIEW);
 
-
-
-
-
     //criando eixos
     glPushMatrix();
-        //glTranslated(-2.4,1.2,-6);
         eixos(80);
     glPopMatrix();
 
@@ -170,11 +166,11 @@ static void key(unsigned char key, int x, int y)
         rot += 0.05f;
         break;
 
-        case 'w':
+        case 's':
         rot2 -= 0.05f;
         break;
 
-        case 's':
+        case 'w':
         rot2 += 0.05f;
         break;
     }
