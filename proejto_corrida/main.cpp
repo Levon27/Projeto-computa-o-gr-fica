@@ -85,7 +85,7 @@ static void resize(int width, int height)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity() ;
 }
-float zoom = 1.4;
+float zoom = 1.0;
 static void display(void)
 {
 
@@ -94,14 +94,28 @@ static void display(void)
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(-70.0/zoom, 70.0/zoom, -50.0/zoom, 70.0/zoom, -100.0, 100.0);
 
-    //posição  da camera para debug
-    //gluLookAt(1*cos(rot)*sin(rot2), 1*sin(rot)*sin(rot2), 1.0*cos(rot2), 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
+    /* VISTA ORTGRAFICA */
 
-    //posição inicial da câmera
-    glRotatef(10.0,0.0,1.0,0.0);
-    gluLookAt(-40.0, 1, 5, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
+    //glOrtho(-70.0/zoom, 70.0/zoom, -50.0/zoom, 70.0/zoom, -100.0, 100.0);
+
+    /* VISTA PERSPECTIVA */
+    glFrustum(-7.0/zoom, 7.0/zoom, -5.0/zoom, 7.0/zoom, -100.0, 100.0);
+
+
+
+    /* posição  da camera para debug */
+    //gluLookAt(1*cos(rot)*sin(rot2), 1*sin(rot)*sin(rot2), 5.0*cos(rot2), 1.0, 0.0, 0.0, 0.0, 0.0, 1.0);
+
+    //glRotatef(10.0*cos(rot),0.0,1.0,0.0);
+    //glTranslatef(0.0,0.0,rot2);
+
+
+
+
+
+    gluLookAt(2*cos(rot)*sin(rot2), 1*sin(rot)*sin(rot2), 5.0*cos(rot2), 1.0, 0.0, 0.0, 0.0, 0.0, 1.0);
+
 
     glMatrixMode(GL_MODELVIEW);
 
