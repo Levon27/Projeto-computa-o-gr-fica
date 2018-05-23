@@ -26,6 +26,7 @@ static int slices = 16;
 static int stacks = 16;
 float rot = 0.0;
 float rot2 = 0.0;
+float ang = 0.0;
 void eixos(float T)
 {
 
@@ -95,6 +96,7 @@ static void display(void)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glEnable(GL_DEPTH_TEST);
+
     /* VISTA ORTGRAFICA */
 
     glOrtho(-70.0/zoom, 70.0/zoom, -50.0/zoom, 70.0/zoom, -100.0, 100.0);
@@ -105,16 +107,13 @@ static void display(void)
 
 
     /* posição  da camera para debug */
-    //gluLookAt(1*cos(rot)*sin(rot2), 1*sin(rot)*sin(rot2), 5.0*cos(rot2), 1.0, 0.0, 0.0, 0.0, 0.0, 1.0);
-
-    //glRotatef(10.0*cos(rot),0.0,1.0,0.0);
-    //glTranslatef(0.0,0.0,rot2);
+    //gluLookAt(1*cos(rot)*sin(rot2), 1*sin(rot)*sin(rot2),1*cos(rot2), 1.0, 0.0, 0.0, 0.0, 0.0, 1.0);
 
 
+    glRotatef(ang,1.0,1.0,1.0);  //gira a camera do jogador
+    gluLookAt(-1.0, 1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0); //pos inicial do jogador
 
 
-
-    gluLookAt(2*cos(rot)*sin(rot2), 1*sin(rot)*sin(rot2), 5.0*cos(rot2), 1.0, 0.0, 0.0, 0.0, 0.0, 1.0);
 
 
     glMatrixMode(GL_MODELVIEW);
@@ -161,11 +160,11 @@ static void key(unsigned char key, int x, int y)
             break;
 
         case '+':
-            zoom += 0.1;
+            zoom += 0.01;
             break;
 
         case '-':
-            zoom -= 0.1;
+            zoom -= 0.01;
             break;
         case 'a':
         rot -= 0.05f;
@@ -181,6 +180,14 @@ static void key(unsigned char key, int x, int y)
 
         case 'w':
         rot2 += 0.05f;
+        break;
+
+        case '1':
+        ang -= 0.2;
+        break;
+
+        case '2':
+        ang += 0.2;
         break;
     }
 
