@@ -161,16 +161,11 @@ static void key(unsigned char key, int x, int y)
             break;
 
         case '+':
-            slices++;
-            stacks++;
+            zoom += 0.1;
             break;
 
         case '-':
-            if (slices>3 && stacks>3)
-            {
-                slices--;
-                stacks--;
-            }
+            zoom -= 0.1;
             break;
         case 'a':
         rot -= 0.05f;
