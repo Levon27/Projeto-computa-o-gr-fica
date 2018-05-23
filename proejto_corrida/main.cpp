@@ -94,13 +94,13 @@ static void display(void)
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-
+    glEnable(GL_DEPTH_TEST);
     /* VISTA ORTGRAFICA */
 
-    //glOrtho(-70.0/zoom, 70.0/zoom, -50.0/zoom, 70.0/zoom, -100.0, 100.0);
+    glOrtho(-70.0/zoom, 70.0/zoom, -50.0/zoom, 70.0/zoom, -100.0, 100.0);
 
     /* VISTA PERSPECTIVA */
-    glFrustum(-7.0/zoom, 7.0/zoom, -5.0/zoom, 7.0/zoom, -100.0, 100.0);
+    //glFrustum(-7.0/zoom, 7.0/zoom, -5.0/zoom, 7.0/zoom, -100.0, 100.0);
 
 
 
