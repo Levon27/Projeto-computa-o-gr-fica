@@ -27,6 +27,7 @@ static int stacks = 16;
 float rot = 0.0;
 float rot2 = 0.0;
 float ang = 0.0;
+float p[3];
 void eixos(float T)
 {
 
@@ -90,7 +91,6 @@ float zoom = 1.0;
 static void display(void)
 {
 
-
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
@@ -108,15 +108,22 @@ static void display(void)
 
     /* posição  da camera para debug */
     //gluLookAt(1*cos(rot)*sin(rot2), 1*sin(rot)*sin(rot2),1*cos(rot2), 1.0, 0.0, 0.0, 0.0, 0.0, 1.0);
-
-
-    glRotatef(ang,1.0,1.0,1.0);  //gira a camera do jogador
-    gluLookAt(-1.0, 1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0); //pos inicial do jogador
-
-
-
-
     glMatrixMode(GL_MODELVIEW);
+
+
+    /*posição da câmera*/
+
+    p[0] = -1.0; //x
+    p[1] = 0.0;  //y
+    p[2] = 2.0;  //z
+
+
+    glPushMatrix();
+        //glTranslatef(-p[0],-p[1],-p[2]);
+        glRotatef(ang,0.0,0.0,1.0);  //gira a camera do jogador
+        //glTranslatef(p[0],p[1],p[2]);
+        gluLookAt(p[0], p[1], p[2], 1.0, 0.0, 1.0, 0.0, 0.0, 1.0); //pos inicial do jogador
+    glPopMatrix();
 
     //criando eixos
     glPushMatrix();
@@ -183,11 +190,11 @@ static void key(unsigned char key, int x, int y)
         break;
 
         case '1':
-        ang -= 0.2;
+        ang -= 0.5;
         break;
 
         case '2':
-        ang += 0.2;
+        ang += 0.5;
         break;
     }
 
