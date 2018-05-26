@@ -104,6 +104,7 @@ static void display(void)
     /* VISTA PERSPECTIVA */
     //glFrustum(-7.0/zoom, 7.0/zoom, -5.0/zoom, 7.0/zoom, -100.0, 100.0);
 
+    gluLookAt(p[0], p[1], p[2], 1.0, 0.0, 1.0, 0.0, 0.0, 1.0); //pos inicial do jogador
 
 
     /* posição  da camera para debug */
@@ -118,13 +119,13 @@ static void display(void)
     p[2] = 2.0;  //z
 
 
-    glPushMatrix();
-        //glTranslatef(-p[0],-p[1],-p[2]);
-        glRotatef(ang,0.0,0.0,1.0);  //gira a camera do jogador
-        //glTranslatef(p[0],p[1],p[2]);
-        gluLookAt(p[0], p[1], p[2], 1.0, 0.0, 1.0, 0.0, 0.0, 1.0); //pos inicial do jogador
-    glPopMatrix();
 
+    glTranslatef(-p[0],-p[1],-p[2]);
+    glRotatef(ang,0.0,0.0,1.0);  //gira a camera do jogador
+    glTranslatef(p[0],p[1],p[2]);
+
+
+    ang = 0.0;
     //criando eixos
     glPushMatrix();
         eixos(80);
@@ -137,8 +138,8 @@ static void display(void)
     /* CHAO */
     glPushMatrix();
         glColor3f(0.2,0.7,0.0);
-        glTranslatef(comp/2,0,0); //    translada por comp/2 p/ que o inicio
-        glScalef(comp,80.0,1.0);  //    da pista coincida com a origem do eixo X
+        glTranslatef(comp/2,0,0);     //        translada por comp/2 p/ que o inicio
+        glScalef(comp,80.0,1.0);      //        da pista coincida com a origem do eixo X
         face();
     glPopMatrix();
 
