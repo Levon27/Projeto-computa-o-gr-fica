@@ -152,7 +152,9 @@ static void display(void)
         face();
     glPopMatrix();
 
-
+    glTranslatef(-p[0],-p[1],-p[2]);
+    glRotatef(ang,0.0,0.0,1.0);  //gira a camera do jogador
+    glTranslatef(p[0],p[1],p[2]);
 
     glutSwapBuffers();
 }
