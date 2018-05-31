@@ -103,7 +103,7 @@ static void display(void)
 
     /* VISTA PERSPECTIVA */
     gluPerspective(100.0,1.0,1.3,100.0);
-    gluLookAt(p[0], p[1], p[2], 0.0, 1.0, 1.0, 0.0, 0.0, 1.0); //pos inicial do jogador
+    gluLookAt(p[0], p[1], p[2], 5.0, 1.0, 1.0, 0.0, 0.0, 1.0); //pos inicial do jogador
 
 
     /* posição  da camera para debug */
@@ -115,7 +115,7 @@ static void display(void)
 
     p[0] = -1.0; //x
     p[1] = 0.0;  //y
-    p[2] = 2.0;  //z
+    p[2] = 10.0;  //z
 
 
 
