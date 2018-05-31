@@ -99,12 +99,11 @@ static void display(void)
 
     /* VISTA ORTGRAFICA */
 
-    glOrtho(-70.0/zoom, 70.0/zoom, -50.0/zoom, 70.0/zoom, -100.0, 100.0);
+    //glOrtho(-70.0/zoom, 70.0/zoom, -50.0/zoom, 70.0/zoom, -100.0, 100.0);
 
     /* VISTA PERSPECTIVA */
-    //glFrustum(-7.0/zoom, 7.0/zoom, -5.0/zoom, 7.0/zoom, -100.0, 100.0);
-
-    gluLookAt(p[0], p[1], p[2], 1.0, 0.0, 1.0, 0.0, 0.0, 1.0); //pos inicial do jogador
+    gluPerspective(100.0,1.0,1.3,100.0);
+    gluLookAt(p[0], p[1], p[2], 0.0, 1.0, 1.0, 0.0, 0.0, 1.0); //pos inicial do jogador
 
 
     /* posição  da camera para debug */
@@ -120,9 +119,9 @@ static void display(void)
 
 
 
-    glTranslatef(-p[0],-p[1],-p[2]);
+    //glTranslatef(-p[0],-p[1],-p[2]);
     glRotatef(ang,0.0,0.0,1.0);  //gira a camera do jogador
-    glTranslatef(p[0],p[1],p[2]);
+    //glTranslatef(p[0],p[1],p[2]);
 
 
     ang = 0.0;
