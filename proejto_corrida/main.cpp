@@ -27,7 +27,8 @@ static int stacks = 16;
 float rot = 0.0;
 float rot2 = 0.0;
 float ang = 0.0;
-float p[3];
+float p[3] = {0.0, 0.0, 5.0}; //posicao da camera
+float dir[3] = {1.0, 0.0, 0.0}; //direcao da camera
 void eixos(float T)
 {
 
@@ -103,19 +104,13 @@ static void display(void)
 
     /* VISTA PERSPECTIVA */
     gluPerspective(50.0,1.0,1.2,100.0);
-    gluLookAt(0, 0, 0, 5.0-p[0], 1.0-p[1], 1.0-p[2], 0.0, 0.0, 1.0); //pos inicial do jogador
+    gluLookAt(0, 0, 0, 5.0-p[0], 0.0-p[1], 5.0-p[2], 0.0, 0.0, 1.0); //pos inicial do jogador
 
 
     /* posição  da camera para debug */
     //gluLookAt(1*cos(rot)*sin(rot2), 1*sin(rot)*sin(rot2),1*cos(rot2), 1.0, 0.0, 0.0, 0.0, 0.0, 1.0);
     glMatrixMode(GL_MODELVIEW);
 
-
-    /*posição da câmera*/
-
-    p[0] = -0.0; //x
-    p[1] = 20.0;  //y
-    p[2] = 10.0;  //z
 
     glRotatef(ang,0.0,0.0,1.0);  //gira a camera do jogador
 
@@ -147,7 +142,7 @@ static void display(void)
 
     /* PISTA */
     glPushMatrix();
-    glTranslatef(-p[0],-p[1],-p[2]);
+        glTranslatef(-p[0],-p[1],-p[2]);
         glColor3b(83, 81, 85);
         glTranslatef(comp/2,0.0,0.1); //    pista deslocada 0.1 pra cima p/ aparecer
         glScalef(comp,20.0,1.0);
@@ -183,11 +178,11 @@ static void key(unsigned char key, int x, int y)
         break;
 
         case 's':
-        rot2 -= 0.05f;
+         //anda para tras
         break;
 
         case 'w':
-        rot2 += 0.05f;
+        //anda p frente
         break;
 
         case '1':
