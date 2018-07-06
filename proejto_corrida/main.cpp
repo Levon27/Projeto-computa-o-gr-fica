@@ -104,7 +104,7 @@ static void display(void)
 
     /* VISTA PERSPECTIVA */
     gluPerspective(50.0,1.0,1.2,100.0);
-    gluLookAt(0, 0, 0, 5.0-p[0], 0.0-p[1], 5.0-p[2], 0.0, 0.0, 1.0); //pos inicial do jogador
+    gluLookAt(0, 0, 0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0); //pos inicial do jogador
 
 
     /* posição  da camera para debug */
@@ -170,19 +170,19 @@ static void key(unsigned char key, int x, int y)
             zoom -= 0.01;
             break;
         case 'a':
-        rot -= 0.05f;
+        //rot -= 0.05f;
         break;
 
         case 'd':
-        rot += 0.05f;
+        //rot += 0.05f;
         break;
 
         case 's':
-         //anda para tras
+         p[0] -= 0.5;//anda para tras
         break;
 
         case 'w':
-        //anda p frente
+        p[0] += 0.5;//anda para frente
         break;
 
         case '1':
