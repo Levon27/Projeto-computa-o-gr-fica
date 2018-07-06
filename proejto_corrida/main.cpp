@@ -102,8 +102,8 @@ static void display(void)
     //glOrtho(-70.0/zoom, 70.0/zoom, -50.0/zoom, 70.0/zoom, -100.0, 100.0);
 
     /* VISTA PERSPECTIVA */
-    gluPerspective(100.0,1.0,1.3,100.0);
-    gluLookAt(p[0], p[1], p[2], 5.0, 1.0, 1.0, 0.0, 0.0, 1.0); //pos inicial do jogador
+    gluPerspective(50.0,1.0,1.2,100.0);
+    gluLookAt(0, 0, 0, 5.0-p[0], 1.0-p[1], 1.0-p[2], 0.0, 0.0, 1.0); //pos inicial do jogador
 
 
     /* posição  da camera para debug */
@@ -113,20 +113,21 @@ static void display(void)
 
     /*posição da câmera*/
 
-    p[0] = -1.0; //x
-    p[1] = 0.0;  //y
+    p[0] = -0.0; //x
+    p[1] = 20.0;  //y
     p[2] = 10.0;  //z
 
-
-
-    //glTranslatef(-p[0],-p[1],-p[2]);
     glRotatef(ang,0.0,0.0,1.0);  //gira a camera do jogador
+
+
+
     //glTranslatef(p[0],p[1],p[2]);
 
 
     ang = 0.0;
     //criando eixos
     glPushMatrix();
+        glTranslatef(-p[0],-p[1],-p[2]);
         eixos(80);
     glPopMatrix();
 
@@ -136,6 +137,7 @@ static void display(void)
 
     /* CHAO */
     glPushMatrix();
+        glTranslatef(-p[0],-p[1],-p[2]);
         glColor3f(0.2,0.7,0.0);
         glTranslatef(comp/2,0,0);     //        translada por comp/2 p/ que o inicio
         glScalef(comp,80.0,1.0);      //        da pista coincida com a origem do eixo X
@@ -145,15 +147,12 @@ static void display(void)
 
     /* PISTA */
     glPushMatrix();
+    glTranslatef(-p[0],-p[1],-p[2]);
         glColor3b(83, 81, 85);
         glTranslatef(comp/2,0.0,0.1); //    pista deslocada 0.1 pra cima p/ aparecer
         glScalef(comp,20.0,1.0);
         face();
     glPopMatrix();
-
-    glTranslatef(-p[0],-p[1],-p[2]);
-    glRotatef(ang,0.0,0.0,1.0);  //gira a camera do jogador
-    glTranslatef(p[0],p[1],p[2]);
 
     glutSwapBuffers();
 }
