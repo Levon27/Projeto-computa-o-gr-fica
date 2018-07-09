@@ -22,13 +22,12 @@
 
 #include <stdlib.h>
 
-static int slices = 16;
-static int stacks = 16;
 float rot = 0.0;
 float rot2 = 0.0;
 float ang = 0.0;
+float ang2 = 0.0; //angulo em relacao ao eixo X
 float p[3] = {0.0, 0.0, 5.0}; //posicao da camera
-float dir[3] = {1.0, 0.0, 0.0}; //direcao da camera
+float dir[3] = {1.0, 0.0, 0.0}; //direcao da camera --- x = cos (ang2)    y = sin (ang2)
 void eixos(float T)
 {
 
@@ -103,7 +102,7 @@ static void display(void)
     //glOrtho(-70.0/zoom, 70.0/zoom, -50.0/zoom, 70.0/zoom, -100.0, 100.0);
 
     /* VISTA PERSPECTIVA */
-    gluPerspective(50.0,1.0,1.2,100.0);
+    gluPerspective(70.0,1.0,1.2,100.0);
     gluLookAt(0, 0, 0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0); //pos inicial do jogador
 
 
@@ -114,12 +113,12 @@ static void display(void)
 
     glRotatef(ang,0.0,0.0,1.0);  //gira a camera do jogador
 
-
-
-    //glTranslatef(p[0],p[1],p[2]);
-
-
+    ang2 += ang;
     ang = 0.0;
+
+    dir[0]= cos(ang2);
+    dir[1]= sin(ang2);
+
     //criando eixos
     glPushMatrix();
         glTranslatef(-p[0],-p[1],-p[2]);
@@ -178,11 +177,13 @@ static void key(unsigned char key, int x, int y)
         break;
 
         case 's':
-         p[0] -= 0.5;//anda para tras
+        p[0] -= 1.0*dir[0];//anda para tras
+        p[1] -= 1.0*dir[1];
         break;
 
         case 'w':
-        p[0] += 0.5;//anda para frente
+        p[0] += 1.0*dir[0];//anda para frente
+        p[1] += 1.0*dir[1];
         break;
 
         case '1':
