@@ -118,8 +118,8 @@ static void display(void)
     ang = 0.0;
 
 
-    dir[0]= sin(ang2*M_PI/180); //x
-    dir[1]= cos(ang2*M_PI/180); //y
+    dir[0]= cos(-ang2*M_PI/180); //x
+    dir[1]= sin(-ang2*M_PI/180); //y
 
     //criando eixos
     glPushMatrix();
@@ -150,9 +150,12 @@ static void display(void)
         face();
     glPopMatrix();
 
-    sprintf(texto,"penis");
-
-    DesenhaTexto(texto,500,200,0,0,0);
+    /*
+    glPushMatrix();
+        sprintf(texto,"%f %f",dir[0],dir[1]);
+        DesenhaTexto(texto,500,200,0,0,0);
+    glPopMatrix();
+    */
 
     glutSwapBuffers();
 }
@@ -183,12 +186,12 @@ static void key(unsigned char key, int x, int y)
         break;
 
         case 's':
-        p[0] -= 1.0*dir[0];//anda para tras
+        p[0] -= 1.0*dir[0]; //anda para tras
         p[1] -= 1.0*dir[1];
         break;
 
         case 'w':
-        p[0] += 1.0*dir[0];//anda para frente
+        p[0] += 1.0*dir[0]; //anda para frente
         p[1] += 1.0*dir[1];
         break;
 
