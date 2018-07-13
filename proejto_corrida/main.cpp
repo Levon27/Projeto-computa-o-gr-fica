@@ -22,6 +22,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 void DesenhaTexto(char *, float , float , float , float , float );
+void eixos(float);
+static void resize (int,int);
+void face();
 float rot = 0.0;
 float rot2 = 0.0;
 float ang = 0.0;
@@ -29,69 +32,9 @@ float ang2 = 0.0; //angulo em relacao ao eixo X
 float p[3] = {0.0, 0.0, 5.0}; //posicao da camera
 float dir[3] = {1.0, 0.0, 0.0}; //direcao da camera ---
 char texto[30];
-void eixos(float T)
-{
-
-    glBegin(GL_LINES);
-
-    glColor3f(1,0,0);
-
-    glVertex3f(0,0,0);
-    glVertex3f(T,0,0);
-
-    glColor3f(0,1,0);
-
-    glVertex3f(0,0,0);
-    glVertex3f(0,T,0);
-
-    glColor3f(0,0,1);
-
-    glVertex3f(0,0,0);
-    glVertex3f(0,0,T);
-
-    glEnd();
-
-};
-
-void face()
-{
-    float i,j;
-    float n=15;
-    glBegin(GL_QUADS);
-
-    for(j=0; j<n; j++)
-    {
-        for (i=0; i<n; i++)
-        {
-            glNormal3f(0,0,1.0f);
-            glVertex3f(-0.5+i/n,0.5-j/n,0.0);
-            glVertex3f(-0.5+i/n,0.5-(j+1)/n,0.0);
-            glVertex3f(-0.5+(i+1)/n,0.5-(j+1)/n,0.0);
-            glVertex3f(-0.5+(i+1)/n,0.5-(j)/n,0.0);
-        }
-    }
-
-    glEnd();
-}
-
-/* GLUT callback Handlers */
-
-static void resize(int width, int height)
-{
-    const float ar = (float) width / (float) height;
-
-    glViewport(0, 0, width, height);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glFrustum(-ar, ar, -1.0, 1.0, 2.0, 100.0);
-
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity() ;
-}
 float zoom = 1.0;
 static void display(void)
 {
-
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
@@ -111,7 +54,6 @@ static void display(void)
     //gluLookAt(1*cos(rot)*sin(rot2), 1*sin(rot)*sin(rot2),1*cos(rot2), 1.0, 0.0, 0.0, 0.0, 0.0, 1.0);
     glMatrixMode(GL_MODELVIEW);
 
-
     glRotatef(ang,0.0,0.0,1.0);  //gira a camera do jogador
 
     ang2 += ang;
@@ -128,7 +70,6 @@ static void display(void)
     glPopMatrix();
 
 
-
     float comp = 100.0; // comprimento da pista + chao
 
     /* CHAO */
@@ -139,7 +80,6 @@ static void display(void)
         glScalef(comp,80.0,1.0);      //        da pista coincida com a origem do eixo X
         face();
     glPopMatrix();
-
 
     /* PISTA */
     glPushMatrix();
@@ -159,7 +99,6 @@ static void display(void)
 
     glutSwapBuffers();
 }
-
 
 static void key(unsigned char key, int x, int y)
 {
@@ -266,7 +205,41 @@ int main(int argc, char *argv[])
 
     return EXIT_SUCCESS;
 }
+void eixos(float T)
+{
 
+    glBegin(GL_LINES);
+
+    glColor3f(1,0,0);
+
+    glVertex3f(0,0,0);
+    glVertex3f(T,0,0);
+
+    glColor3f(0,1,0);
+
+    glVertex3f(0,0,0);
+    glVertex3f(0,T,0);
+
+    glColor3f(0,0,1);
+
+    glVertex3f(0,0,0);
+    glVertex3f(0,0,T);
+
+    glEnd();
+
+};
+static void resize(int width, int height)
+{
+    const float ar = (float) width / (float) height;
+
+    glViewport(0, 0, width, height);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glFrustum(-ar, ar, -1.0, 1.0, 2.0, 100.0);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity() ;
+}
 void DesenhaTexto(char *texto, float x, float y, float r, float g, float b)
 {
     glDisable(GL_LIGHTING);    // se estiver usando a iluminação
@@ -301,4 +274,24 @@ void DesenhaTexto(char *texto, float x, float y, float r, float g, float b)
 
     glPopMatrix();
     glEnable(GL_LIGHTING);     // se estiver usando a iluminação
+}
+void face()
+{
+    float i,j;
+    float n=15;
+    glBegin(GL_QUADS);
+
+    for(j=0; j<n; j++)
+    {
+        for (i=0; i<n; i++)
+        {
+            glNormal3f(0,0,1.0f);
+            glVertex3f(-0.5+i/n,0.5-j/n,0.0);
+            glVertex3f(-0.5+i/n,0.5-(j+1)/n,0.0);
+            glVertex3f(-0.5+(i+1)/n,0.5-(j+1)/n,0.0);
+            glVertex3f(-0.5+(i+1)/n,0.5-(j)/n,0.0);
+        }
+    }
+
+    glEnd();
 }
