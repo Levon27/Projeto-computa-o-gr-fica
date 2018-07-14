@@ -29,10 +29,12 @@ float rot = 0.0;
 float rot2 = 0.0;
 float ang = 0.0;
 float ang2 = 0.0; //angulo em relacao ao eixo X
-float p[3] = {0.0, 0.0, 5.0}; //posicao da camera
+float p[3] = {0.0, 0.0, 4.0}; //posicao da camera
 float dir[3] = {1.0, 0.0, 0.0}; //direcao da camera ---
 char texto[30];
 float zoom = 1.0;
+float comp = 100.0; // comprimento da pista e chao
+float larg = 20.0;
 static void display(void)
 {
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -46,7 +48,7 @@ static void display(void)
     //glOrtho(-70.0/zoom, 70.0/zoom, -50.0/zoom, 70.0/zoom, -100.0, 100.0);
 
     /* VISTA PERSPECTIVA */
-    gluPerspective(70.0,1.0,1.2,100.0);
+    gluPerspective(70.0,1.0,1.0,1000.0);
     gluLookAt(0, 0, 0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0); //pos inicial do jogador
 
 
@@ -59,7 +61,6 @@ static void display(void)
     ang2 += ang;
     ang = 0.0;
 
-
     dir[0]= cos(-ang2*M_PI/180); //x
     dir[1]= sin(-ang2*M_PI/180); //y
 
@@ -69,8 +70,6 @@ static void display(void)
         eixos(80);
     glPopMatrix();
 
-
-    float comp = 100.0; // comprimento da pista + chao
 
     /* CHAO */
     glPushMatrix();
@@ -86,7 +85,7 @@ static void display(void)
         glTranslatef(-p[0],-p[1],-p[2]);
         glColor3b(83, 81, 85);
         glTranslatef(comp/2,0.0,0.1); //    pista deslocada 0.1 pra cima p/ aparecer
-        glScalef(comp,20.0,1.0);
+        glScalef(comp,larg,1.0);
         face();
     glPopMatrix();
 
@@ -96,6 +95,13 @@ static void display(void)
         DesenhaTexto(texto,500,200,0,0,0);
     glPopMatrix();
     */
+
+    /* volta a pos do jogador caso ele saia da pista */
+
+    if (p[1]> larg/2)
+        p[1] = larg/2-0.1;
+    if (p[1]< -larg/2)
+        p[1] = -larg/2+0.1;
 
     glutSwapBuffers();
 }
@@ -126,12 +132,14 @@ static void key(unsigned char key, int x, int y)
 
         case 's':
         p[0] -= 1.0*dir[0]; //anda para tras
-        p[1] -= 1.0*dir[1];
+        if (p[1]<larg/2 && p[1]>-larg/2)
+            p[1] -= 1.0*dir[1];
         break;
 
         case 'w':
         p[0] += 1.0*dir[0]; //anda para frente
-        p[1] += 1.0*dir[1];
+        if (p[1]<larg/2 && p[1]>-larg/2)
+            p[1] += 1.0*dir[1];
         break;
 
         case '1':
