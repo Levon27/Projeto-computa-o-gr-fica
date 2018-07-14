@@ -56,7 +56,7 @@ static void display(void)
     //gluLookAt(1*cos(rot)*sin(rot2), 1*sin(rot)*sin(rot2),1*cos(rot2), 1.0, 0.0, 0.0, 0.0, 0.0, 1.0);
     glMatrixMode(GL_MODELVIEW);
 
-    glRotatef(ang,0.0,0.0,1.0);  //gira a camera do jogador
+    //glRotatef(ang,0.0,0.0,1.0);  //gira a camera do jogador
 
     ang2 += ang;
     ang = 0.0;
@@ -66,6 +66,7 @@ static void display(void)
 
     //criando eixos
     glPushMatrix();
+        glRotatef(ang2,0,0,1.0);
         glTranslatef(-p[0],-p[1],-p[2]);
         eixos(80);
     glPopMatrix();
@@ -73,6 +74,7 @@ static void display(void)
 
     /* CHAO */
     glPushMatrix();
+        glRotatef(ang2,0,0,1.0);
         glTranslatef(-p[0],-p[1],-p[2]);
         glColor3f(0.2,0.7,0.0);
         glTranslatef(comp/2,0,0);     //        translada por comp/2 p/ que o inicio
@@ -82,6 +84,7 @@ static void display(void)
 
     /* PISTA */
     glPushMatrix();
+        glRotatef(ang2,0,0,1.0);
         glTranslatef(-p[0],-p[1],-p[2]);
         glColor3b(83, 81, 85);
         glTranslatef(comp/2,0.0,0.1); //    pista deslocada 0.1 pra cima p/ aparecer
@@ -89,12 +92,12 @@ static void display(void)
         face();
     glPopMatrix();
 
-    /*
+
     glPushMatrix();
         sprintf(texto,"%f %f",dir[0],dir[1]);
         DesenhaTexto(texto,500,200,0,0,0);
     glPopMatrix();
-    */
+
 
     /* volta a pos do jogador caso ele saia da pista */
 
