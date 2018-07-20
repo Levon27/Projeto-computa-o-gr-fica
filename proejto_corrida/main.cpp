@@ -48,7 +48,7 @@ static void display(void)
     //glOrtho(-70.0/zoom, 70.0/zoom, -50.0/zoom, 70.0/zoom, -100.0, 100.0);
 
     /* VISTA PERSPECTIVA */
-    gluPerspective(70.0,1.0,1.0,1000.0);
+    gluPerspective(90.0,1.0,1.0,1000.0);
     gluLookAt(0, 0, 0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0); //pos inicial do jogador
 
 
@@ -125,33 +125,26 @@ static void key(unsigned char key, int x, int y)
         case '-':
             zoom -= 0.01;
             break;
-        case 'a':
-        //rot -= 0.05f;
-        break;
-
-        case 'd':
-        //rot += 0.05f;
-        break;
 
         case 's':
         p[0] -= 1.0*dir[0]; //anda para tras
         if (p[1]<larg/2 && p[1]>-larg/2)
             p[1] -= 1.0*dir[1];
-        break;
+            break;
 
         case 'w':
         p[0] += 1.0*dir[0]; //anda para frente
         if (p[1]<larg/2 && p[1]>-larg/2)
             p[1] += 1.0*dir[1];
-        break;
+            break;
 
-        case '1':
+        case 'a':
         ang -= 0.8;
-        break;
+            break;
 
-        case '2':
+        case 'd':
         ang += 0.8;
-        break;
+            break;
     }
 
     glutPostRedisplay();
