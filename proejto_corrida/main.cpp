@@ -21,8 +21,9 @@
 #endif
 #include <stdio.h>
 #include <stdlib.h>
-void DesenhaTexto(char *, float , float , float , float , float );
+void DesenhaObstaculo(float x1,float x2,float x3, float x4, float y1,float y2, float y3, float y4);
 void eixos(float);
+void DesenhaObstaculo(float,float,float,float);
 static void resize (int,int);
 void face();
 float rot = 0.0;
@@ -35,6 +36,7 @@ char texto[30];
 float zoom = 1.0;
 float comp = 100.0; // comprimento da pista e chao
 float larg = 20.0;
+
 static void display(void)
 {
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -71,7 +73,6 @@ static void display(void)
         eixos(80);
     glPopMatrix();
 
-
     /* CHAO */
     glPushMatrix();
         glRotatef(ang2,0,0,1.0);
@@ -95,7 +96,7 @@ static void display(void)
 
     glPushMatrix();
         sprintf(texto,"%f %f",dir[0],dir[1]);
-        DesenhaTexto(texto,500,200,0,0,0);
+        DesenhaTexto(texto,500,200,1,1,1);
     glPopMatrix();
 
 
@@ -145,6 +146,11 @@ static void key(unsigned char key, int x, int y)
         case 'd':
         ang += 0.8;
             break;
+    }
+
+    switch(key)
+    {
+
     }
 
     glutPostRedisplay();
@@ -209,6 +215,18 @@ int main(int argc, char *argv[])
 
     return EXIT_SUCCESS;
 }
+
+void DesenhaObstaculo(float x1,float x2,float x3, float x4, float y1,float y2, float y3, float y4){
+    float h = 10;
+    glColor3f(1,1,1);
+    glBegin(GL_QUADS);
+        glVertex3f(x1,y1,0);
+        glVertex3f(x2,y2,0);
+        glVertex3f(x2,y2,h);
+        glVertex3f(x1,y1,h);
+    glEnd();
+}
+
 void eixos(float T)
 {
 
