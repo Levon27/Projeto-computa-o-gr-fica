@@ -1,16 +1,3 @@
-/*
- * GLUT Shapes Demo
- *
- * Written by Nigel Stewart November 2003
- *
- * This program is test harness for the sphere, cone
- * and torus shapes in GLUT.
- *
- * Spinning wireframe and smooth shaded shapes are
- * displayed until the ESC or q key is pressed.  The
- * number of geometry stacks and slices can be adjusted
- * using the + and - keys.
- */
 
 #include <windows.h>
 #include <math.h>
@@ -21,11 +8,14 @@
 #endif
 #include <stdio.h>
 #include <stdlib.h>
-void DesenhaObstaculo(float x1,float x2,float x3, float x4, float y1,float y2, float y3, float y4);
+void DesenhaObstaculo(float ,float ,float , float , float ,float , float , float);
+void DesenhaTexto(char *texto, float x, float y, float r, float g, float b);
+void cubo(float,float,float);
 void eixos(float);
-void DesenhaObstaculo(float,float,float,float);
 static void resize (int,int);
 void face();
+void faceCubo(float);
+
 float rot = 0.0;
 float rot2 = 0.0;
 float ang = 0.0;
@@ -88,17 +78,26 @@ static void display(void)
         glRotatef(ang2,0,0,1.0);
         glTranslatef(-p[0],-p[1],-p[2]);
         glColor3b(83, 81, 85);
-        glTranslatef(comp/2,0.0,0.1); //    pista deslocada 0.1 pra cima p/ aparecer
+        glTranslatef(comp/2,0.0,0.01); //    pista deslocada 0.01 pra cima p/ aparecer
         glScalef(comp,larg,1.0);
         face();
     glPopMatrix();
-
-
+    //*/
+    /* TESTE CUBO */
+    glPushMatrix();
+        //glTranslatef(5.0,3.0,5.0);
+        glScalef(10,10,10);
+        cubo(30,0,3);
+    glPopMatrix();
+    /*
+    glPushMatrix();
+        DesenhaObstaculo(100.0,100.0,10.0,10.0,10.0,10.0,10.0,10.0);
+    glPopMatrix();
+    */
     glPushMatrix();
         sprintf(texto,"%f %f",dir[0],dir[1]);
         DesenhaTexto(texto,500,200,1,1,1);
     glPopMatrix();
-
 
     /* volta a pos do jogador caso ele saia da pista */
 
@@ -140,22 +139,16 @@ static void key(unsigned char key, int x, int y)
             break;
 
         case 'a':
-        ang -= 0.8;
+        ang -= 1.2;
             break;
 
         case 'd':
-        ang += 0.8;
+        ang += 1.2;
             break;
-    }
-
-    switch(key)
-    {
-
     }
 
     glutPostRedisplay();
 }
-
 
 
 static void idle(void)
@@ -216,10 +209,10 @@ int main(int argc, char *argv[])
     return EXIT_SUCCESS;
 }
 
-void DesenhaObstaculo(float x1,float x2,float x3, float x4, float y1,float y2, float y3, float y4){
-    float h = 10;
-    glColor3f(1,1,1);
-    glBegin(GL_QUADS);
+void DesenhaObstaculo(float x1,float y1,float x2, float y2, float x3,float y3, float x4, float y4){
+    float h = 100.0;
+    glColor3f(1.0,1.0,1.0);
+    glBegin(GL_POLYGON);
         glVertex3f(x1,y1,0);
         glVertex3f(x2,y2,0);
         glVertex3f(x2,y2,h);
@@ -314,6 +307,62 @@ void face()
             glVertex3f(-0.5+(i+1)/n,0.5-(j)/n,0.0);
         }
     }
+    glEnd();
+}
+void cubo(float x,float y,float tamanho)
+{
+    float t = tamanho;
+    glLoadIdentity();
+    //face de cima
+    glRotatef(ang2,0,0,1.0);
+    glTranslatef(-p[0],-p[1],-p[2]);
 
+    glTranslatef(x,y,1);
+    glColor3f(1,1,1);
+    glScalef(t,t,t);
+    faceCubo(t);
+
+    //face da frente
+    glRotatef(90,-1,0,0);
+    faceCubo(t);
+
+    //face de tras
+    glRotatef(180,-1,0,0);
+    faceCubo(t);
+
+    glLoadIdentity();
+    //face esquerda
+    glRotatef(ang2,0,0,1.0);
+    glTranslatef(-p[0],-p[1],-p[2]);
+
+    glTranslatef(x,y,1);
+
+    glColor3f(1,1,1);
+    glRotatef(90,0,1,0);
+    glScalef(t,t,t);
+    faceCubo(t);
+
+    glRotatef(180,0,1,0);
+    faceCubo(t);
+
+}
+void faceCubo(float tam)
+{
+    float i,j;
+    float n=15;
+    glBegin(GL_QUADS);
+
+    for(j=0; j<n; j++)
+    {
+        for (i=0; i<n; i++)
+        {
+            //glScalef(tam,tam,tam);
+            glNormal3f(0,0,1.0f);
+            glVertex3f(-0.5+i/n,0.5-j/n,0.5);
+            glVertex3f(-0.5+i/n,0.5-(j+1)/n,0.5);
+            glVertex3f(-0.5+(i+1)/n,0.5-(j+1)/n,0.5);
+            glVertex3f(-0.5+(i+1)/n,0.5-(j)/n,0.5);
+        }
+    }
     glEnd();
 }

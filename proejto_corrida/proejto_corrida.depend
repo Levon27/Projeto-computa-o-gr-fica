@@ -224,11 +224,12 @@
 1341006774 d:\program files (x86)\codeblocks\mingw\include\math.h
 	<_mingw.h>
 
-1527368767 source:c:\users\levon\desktop\maua\computação gráfica\projeto-computacao-grafica\proejto_corrida\main.cpp
+1534282391 source:c:\users\levon\desktop\maua\computação gráfica\projeto-computacao-grafica\proejto_corrida\main.cpp
 	<windows.h>
 	<math.h>
 	<GLUT/glut.h>
 	<GL/glut.h>
+	<stdio.h>
 	<stdlib.h>
 
 1532096560 source:c:\users\14.01587-0\desktop\mauá\computação gráfica\projeto-computacao-grafica\proejto_corrida\main.cpp
