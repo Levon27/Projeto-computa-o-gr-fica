@@ -85,9 +85,7 @@ static void display(void)
     //*/
     /* TESTE CUBO */
     glPushMatrix();
-        //glTranslatef(5.0,3.0,5.0);
-        glScalef(10,10,10);
-        cubo(30,0,3);
+        cubo(30,0,3.5);
     glPopMatrix();
     /*
     glPushMatrix();
@@ -119,11 +117,11 @@ static void key(unsigned char key, int x, int y)
             break;
 
         case '+':
-            zoom += 0.01;
+            p[2] += 1;
             break;
 
         case '-':
-            zoom -= 0.01;
+            p[2] -= 1;
             break;
 
         case 's':
@@ -317,7 +315,7 @@ void cubo(float x,float y,float tamanho)
     glRotatef(ang2,0,0,1.0);
     glTranslatef(-p[0],-p[1],-p[2]);
 
-    glTranslatef(x,y,1);
+    glTranslatef(x,y,t/2);
     glColor3f(1,1,1);
     glScalef(t,t,t);
     faceCubo(t);
@@ -335,7 +333,7 @@ void cubo(float x,float y,float tamanho)
     glRotatef(ang2,0,0,1.0);
     glTranslatef(-p[0],-p[1],-p[2]);
 
-    glTranslatef(x,y,1);
+    glTranslatef(x,y,t/2);
 
     glColor3f(1,1,1);
     glRotatef(90,0,1,0);
