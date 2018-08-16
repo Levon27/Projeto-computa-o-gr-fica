@@ -8,8 +8,9 @@
 #endif
 #include <stdio.h>
 #include <stdlib.h>
-void DesenhaObstaculo(float ,float ,float , float , float ,float , float , float);
+void DesenhaObstaculo(float ,float ,float);
 void DesenhaTexto(char *texto, float x, float y, float r, float g, float b);
+float distancia(float, float, float, float);
 void cubo(float,float,float);
 void eixos(float);
 static void resize (int,int);
@@ -20,13 +21,15 @@ float rot = 0.0;
 float rot2 = 0.0;
 float ang = 0.0;
 float ang2 = 0.0; //angulo em relacao ao eixo X
-float p[3] = {0.0, 0.0, 4.0}; //posicao da camera
+float p[3] = {0.0, 0.0, 5.0}; //posicao da camera
 float dir[3] = {1.0, 0.0, 0.0}; //direcao da camera ---
 char texto[30];
 float zoom = 1.0;
 float comp = 100.0; // comprimento da pista e chao
 float larg = 20.0;
-
+float tamanho = 4; //tamanho dos obstaculos
+bool gameOver = false;
+bool ganhou = false;
 static void display(void)
 {
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -43,9 +46,6 @@ static void display(void)
     gluPerspective(90.0,1.0,1.0,1000.0);
     gluLookAt(0, 0, 0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0); //pos inicial do jogador
 
-
-    /* posição  da camera para debug */
-    //gluLookAt(1*cos(rot)*sin(rot2), 1*sin(rot)*sin(rot2),1*cos(rot2), 1.0, 0.0, 0.0, 0.0, 0.0, 1.0);
     glMatrixMode(GL_MODELVIEW);
 
     //glRotatef(ang,0.0,0.0,1.0);  //gira a camera do jogador
@@ -78,31 +78,51 @@ static void display(void)
         glRotatef(ang2,0,0,1.0);
         glTranslatef(-p[0],-p[1],-p[2]);
         glColor3b(83, 81, 85);
-        glTranslatef(comp/2,0.0,0.01); //    pista deslocada 0.01 pra cima p/ aparecer
+        glTranslatef(comp/2,0.0,0.05);      // pista deslocada pra cima p/ aparecer
         glScalef(comp,larg,1.0);
         face();
     glPopMatrix();
-    //*/
-    /* TESTE CUBO */
+
+    /* TESTE CUBO
     glPushMatrix();
         cubo(30,0,3.5);
     glPopMatrix();
-    /*
-    glPushMatrix();
-        DesenhaObstaculo(100.0,100.0,10.0,10.0,10.0,10.0,10.0,10.0);
-    glPopMatrix();
     */
+
+    DesenhaObstaculo(30,0,tamanho);
+    DesenhaObstaculo(15,-7,tamanho);
+    DesenhaObstaculo(15,7,tamanho);
+    DesenhaObstaculo(60,0,10);
+
     glPushMatrix();
-        sprintf(texto,"%f %f",dir[0],dir[1]);
+        //sprintf(texto,"%f %f",dir[0],dir[1]);
+        if (gameOver)
+            sprintf(texto,"Perdeu");
+        if (ganhou)
+            sprintf(texto,"Ganhou");
+
         DesenhaTexto(texto,500,200,1,1,1);
     glPopMatrix();
 
     /* volta a pos do jogador caso ele saia da pista */
-
     if (p[1]> larg/2)
         p[1] = larg/2-0.1;
     if (p[1]< -larg/2)
         p[1] = -larg/2+0.1;
+
+
+    if (distancia(p[0],p[1],30,0) <= tamanho*0.9)
+        gameOver = true;
+    if (distancia(p[0],p[1],15,7) <= tamanho*0.9)
+        gameOver = true;
+    if (distancia(p[0],p[1],15,-7) <= tamanho*0.9)
+        gameOver = true;
+    if (distancia(p[0],p[1],60,0) <= 10*0.9)
+        gameOver = true;
+
+    if (p[0]>=comp)
+        ganhou = true;
+
 
     glutSwapBuffers();
 }
@@ -207,15 +227,14 @@ int main(int argc, char *argv[])
     return EXIT_SUCCESS;
 }
 
-void DesenhaObstaculo(float x1,float y1,float x2, float y2, float x3,float y3, float x4, float y4){
-    float h = 100.0;
-    glColor3f(1.0,1.0,1.0);
-    glBegin(GL_POLYGON);
-        glVertex3f(x1,y1,0);
-        glVertex3f(x2,y2,0);
-        glVertex3f(x2,y2,h);
-        glVertex3f(x1,y1,h);
-    glEnd();
+void DesenhaObstaculo(float x,float y, float tamanho){
+    glPushMatrix();
+        cubo(x,y,tamanho);
+    glPopMatrix();
+}
+
+float distancia(float camX, float camY, float obsX, float obsY){ /* tam é o tamanha dos obstaculos */
+    return sqrt(pow(camX-obsX,2) + pow(camY-obsY,2));
 }
 
 void eixos(float T)
